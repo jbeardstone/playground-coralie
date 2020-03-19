@@ -1,87 +1,93 @@
-<template>
-
- <v-form id=connexion>
-     <v-container>
-      <v-row>
-
-        <v-col cols="12" sm="6">
-          <v-text-field
-            v-model="first"
-            label="login"
-            outlined >
-           </v-text-field>
-        </v-col>
-
-    
-         <v-col cols="12" sm="6">
-          <v-text-field
+<template lang="pug">
+  v-form#connexion(
+    ref="formulaire"
+    v-model="valid"
+    lazy-validation=''
+  )
+    v-container
+      v-row
+        v-col(cols='3') {{ login }}
+        v-col(cols='3') {{ password }}
+        v-col(cols='3') {{ password_confirmation }}
+        v-col(cols='3') {{ valid }}
+      v-row
+        v-col(cols='12')
+          v-text-field(
+            v-model='login'
+            label='login'
+            hint='Saisir votre login, username ou email'
+            :rules="[required('login'), minLength('login', 5), maxLength('login', 128)]"
+            outlined=''
+            counter=''
+          )
+        v-col(cols='12')
+          v-text-field(
+            v-model='password'
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show4 ? 'text' : 'password'"
-            name="input-10-2"
-            label="Error"
-            hint="At least 8 characters"
-            value="Pa"
-            error
-            @click:append="show4 = !show4" >
-        </v-text-field>
-        </v-col>
-
-        <v-col cols="12" sm="6">
-          <v-text-field
+            :rules="[required('password'), minLength('password', 5), maxLength('password', 128)]"
+            name='input-10-2'
+            label='Mot de passe'
+            hint='Saisissez votre mot de passe'
+            @click:append='show4 = !show4'
+            outlined=''
+          )
+        v-col(cols='12')
+          v-text-field(
+            v-model='password_confirmation'
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required, rules.passwordConfirm]"
-            :type="show4 ? 'text' : 'passwordConfirm'"
-            name="input-10-2"
-            label="Error"
-            hint="At least 8 characters"
-            value="Pa"
-            error
-            @click:append="show4 = !show4"
-          ></v-text-field>
-        </v-col>
-    
-        <button type="button" v-on:click="enter()">Connexion</button>
-
-     </v-row>
-   </v-container>
- </v-form>
-        
+            :type="show4 ? 'text' : 'password'"
+            :rules="[required('password'), minLength('password', 5), maxLength('password', 128), passwordValidation(password, password_confirmation)]"
+            name='input-10-2'
+            label='Mot de passe'
+            hint='Saisissez votre mot de passe une seconde fois'
+            @click:append='show4 = !show4'
+            outlined=''
+            )
+        v-col(cols='3')
+          v-btn(
+            type='button'
+            class='success'
+            @click.prevent='reset()'
+          ) Reset
+        v-col(cols='3')
+          v-btn(
+            :disabled='!valid'
+            type='button'
+            class='primary'
+            @click.prevent='enter()'
+          ) Connexion
 </template>
 
-
 <script>
+import validators from '@/plugins/validator'
 export default {
- el: '#connexion',
   data() {
-      return{
-      first: '',
+    return {
       show4: false,
+      valid: false,
+      login: '',
       password: '',
-      }
- },
-    rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
-          passwordConfirm: () => ('wrong password'),
-        },
-
- methods:{
-     enter(){
-         if(this.v-text-field.login != "" && this.v-text-field.password != "" && this.v-text-field.passwordConfirm != ""){
-                if(this.v-text-field.password===this.v-text-field.passwordConfirm){
-                    <v-alert border="right" color="blue-grey" dark>
-                         You are connected
-                    </v-alert>
-                }else{
-                     <v-alert type="error"> Wrong Password </v-alert>
-                }
-         }
-     }
-
- }
+      password_confirmation: '',
+      ...validators
+    }
+  },
+  methods: {
+    validate() {
+      this.$refs.formulaire.validate()
+    },
+    reset() {
+      this.$refs.formulaire.reset()
+    },
+    resetValidation() {
+      this.$refs.formulaire.resetValidation()
+    },
+    enter() {
+      if (this.password !== this.password_confirmation) return false
+      console.log("c'est bon")
+      console.log('User : ', this.login)
+      console.log('Pwd : ', this.password)
+    }
+  }
 }
 </script>
-<style scoped>
-
-</style>
-
