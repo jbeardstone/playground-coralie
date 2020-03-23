@@ -64,6 +64,7 @@ import validators from '@/plugins/validator'
 export default {
   data() {
     return {
+      name : 'connexion',
       show4: false,
       valid: false,
       login: '',
