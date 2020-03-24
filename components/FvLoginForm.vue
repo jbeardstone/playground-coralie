@@ -14,6 +14,7 @@
         v-col(cols='12')
           v-text-field(
             v-model='login'
+            id='login'
             label='login'
             hint='Saisir votre login, username ou email'
             :rules="[required('login'), minLength('login', 5), maxLength('login', 128)]"
@@ -23,6 +24,7 @@
         v-col(cols='12')
           v-text-field(
             v-model='password'
+            id='password'
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show4 ? 'text' : 'password'"
             :rules="[required('password'), minLength('password', 5), maxLength('password', 128)]"
@@ -35,6 +37,7 @@
         v-col(cols='12')
           v-text-field(
             v-model='password_confirmation'
+            id='password_confirmation'
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show4 ? 'text' : 'password'"
             :rules="[required('password'), minLength('password', 5), maxLength('password', 128), passwordValidation(password, password_confirmation)]"
@@ -64,7 +67,6 @@ import validators from '@/plugins/validator'
 export default {
   data() {
     return {
-      name : 'connexion',
       show4: false,
       valid: false,
       login: '',
