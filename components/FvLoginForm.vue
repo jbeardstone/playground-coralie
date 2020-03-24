@@ -28,7 +28,7 @@
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show4 ? 'text' : 'password'"
             :rules="[required('password'), minLength('password', 5), maxLength('password', 128)]"
-            name='input-10-2'
+            name='password'
             label='Mot de passe'
             hint='Saisissez votre mot de passe'
             @click:append='show4 = !show4'
@@ -41,7 +41,7 @@
             :append-icon="show4 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show4 ? 'text' : 'password'"
             :rules="[required('password'), minLength('password', 5), maxLength('password', 128), passwordValidation(password, password_confirmation)]"
-            name='input-10-2'
+            name='password_confirmation'
             label='Mot de passe'
             hint='Saisissez votre mot de passe une seconde fois'
             @click:append='show4 = !show4'
